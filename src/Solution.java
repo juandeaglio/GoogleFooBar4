@@ -4,5 +4,6 @@ public class Solution
     {
         FuelController controller = new FuelController();
         System.out.println(controller.Optimize("315454535345"));
+        //System.out.println(controller.Optimize("31"));
     }
 }

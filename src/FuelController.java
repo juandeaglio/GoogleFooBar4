@@ -4,8 +4,9 @@ import java.util.HashMap;
 public class FuelController
 {
     //BigInteger MAX_INT_VALUE = (2 ^ 32) ^ Integer.MAX_VALUE;
-    HashMap<String, Integer> dict = new HashMap<String, Integer>();
-    BigInteger pelletStart;
+    HashMap<String, Integer> dict = new HashMap<>();
+    static StringBuilder quotient = new StringBuilder();
+    static BigInteger quotientBigInt;
     public int Optimize(String pelletStart)
     {
 
@@ -23,13 +24,16 @@ public class FuelController
             {
                 while(Integer.parseInt(lastDigit) % 2 == 0)
                 {
-                    pelletStart = LongDivisionBy2(pelletStart);
-                    lastDigit = pelletStart.substring(pelletStart.length()-1);
+                    quotientBigInt = new BigInteger(pelletStart);
+                    LongDivisionBy2(pelletStart);
+                    pelletStart = quotient.toString();
+                    if(pelletStart.length() == 1)
+                        lastDigit = pelletStart;
+                    else
+                        lastDigit = pelletStart.substring(pelletStart.length()-1);
                     steps++;
                 }
-                int afterSteps = Optimize(pelletStart); //subject to change
-                dict.put(pelletStart, afterSteps);
-                return steps + afterSteps;
+                return steps + Optimize(pelletStart);
             }
             else
             {
@@ -68,53 +72,19 @@ public class FuelController
             }
         }
     }
-    public String LongDivisionBy2(String number)
+    public void LongDivisionBy2(String number)
     {
-        String numberToDivide = number;
-        StringBuilder quotient = new StringBuilder();
-        int letterCount = 1;
-        boolean forceDivide = false;
-        while(numberToDivide.length() > 0)
-        {
-            if(numberToDivide.compareTo("44") == 0)
-            {
-                boolean yes = true;
-            }
-            if(numberToDivide.length() < letterCount)
-            {
-                boolean yes = true;
-            }
-            BigInteger subDivisible = new BigInteger(numberToDivide.substring(0,letterCount));
-            if(forceDivide)
-            {
-                numberToDivide = longDivisionUsingSubDivisible(numberToDivide, quotient, letterCount, subDivisible);
-                letterCount = 1;
-            }
-            else if(letterCount == 1 && subDivisible.compareTo(BigInteger.ZERO) == 0)
-            {
-                quotient.append(0);
-                numberToDivide = numberToDivide.substring(letterCount);
-            }
-            else if(subDivisible.getLowestSetBit() != 0)
-            {
-                longDivisionUsingSubDivisible(numberToDivide, quotient, letterCount, subDivisible);
-                numberToDivide = numberToDivide.substring(letterCount);
-                letterCount = 1;
-            }
-            else
-            {
-                if (Math.pow(10, letterCount - 1) < Long.MAX_VALUE)
-                    letterCount++;
-                //else
-                   // forceDivide = true;
-            }
-        }
-        return quotient.toString();
+        quotient.setLength(0);
+        quotientBigInt = quotientBigInt.divide(BigInteger.valueOf(2));
+        quotient.append(quotientBigInt);
     }
-
-    private String longDivisionUsingSubDivisible(String numberToDivide, StringBuilder quotient, int letterCount, BigInteger subDivisible)
+    private String longDivisionUsingSubDivisible(String numberToDivide, int letterCount, BigInteger subDivisible)
     {
         BigInteger subQuotient = subDivisible.divide(BigInteger.valueOf(2));
+        if (subQuotient.compareTo(BigInteger.valueOf(50)) > 0)
+        {
+            boolean yes = true;
+        }
         quotient.append(subQuotient);
         numberToDivide = subDivisible.subtract(subQuotient.multiply(BigInteger.valueOf(2))).toString() + numberToDivide.substring(letterCount);
         return numberToDivide;

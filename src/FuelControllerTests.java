@@ -57,27 +57,12 @@ public class FuelControllerTests
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
     @Test
-    void Given2ShouldReturn0Steps()
+    void Given1ShouldReturn0Steps()
     {
         Setup();
         String input = "1";
         int expectedResult = 0;
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
-    @Test
-    void GivenANumberShouldLongDivideBy2()
-    {
-        Setup();
-        String input = "103568";
-        int expectedResult = 51784;
-        Assertions.assertEquals(expectedResult, Integer.parseInt(controller.LongDivisionBy2(input)));
-    }
-    @Test
-    void GivenANumberWithMoreOddsShouldLongDivideBy2()
-    {
-        Setup();
-        String input = "113568";
-        int expectedResult = 56784;
-        Assertions.assertEquals(expectedResult, Integer.parseInt(controller.LongDivisionBy2(input)));
-    }
+
 }
