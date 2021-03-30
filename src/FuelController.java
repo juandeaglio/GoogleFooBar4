@@ -26,15 +26,22 @@ public class FuelController
                 String rightOptimizationArg;
                 int leftSteps;
                 int rightSteps;
+                String numberWithoutLastDigit;
+                if(pelletStart.length() > 1)
+                {
+                    numberWithoutLastDigit = pelletStart.substring(pelletStart.length() - 1);
 
-                String numberWithoutLastDigit = pelletStart.substring(pelletStart.length() - 1);
+                }
+                else
+                {
+                    numberWithoutLastDigit = "";
+                }
                 leftOptimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) - 1);
                 leftSteps = Optimize(leftOptimizationArg);
 
                 rightOptimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) + 1);
                 rightSteps = Optimize(rightOptimizationArg);
-
-                return Math.min(leftSteps, rightSteps);
+                return 1 + Math.min(leftSteps, rightSteps);
             }
         }
     }
