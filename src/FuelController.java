@@ -1,12 +1,21 @@
+import java.math.BigInteger;
+import java.util.HashMap;
+
 public class FuelController
 {
-    int MAX_INT_VALUE = 2147483647;
-
+    //BigInteger MAX_INT_VALUE = (2 ^ 32) ^ Integer.MAX_VALUE;
+    HashMap<String, Integer> dict = new HashMap<String, Integer>();
+    BigInteger pelletStart;
     public int Optimize(String pelletStart)
     {
+
         int steps = 0;
         if(pelletStart.length() == 1 && Integer.parseInt(pelletStart) == 1)
             return steps;
+        else if(dict.containsKey(pelletStart))
+        {
+            return dict.get(pelletStart);
+        }
         else
         {
             String lastDigit = pelletStart.substring(pelletStart.length()-1);
@@ -18,7 +27,9 @@ public class FuelController
                     lastDigit = pelletStart.substring(pelletStart.length()-1);
                     steps++;
                 }
-                return steps + Optimize(pelletStart);
+                int afterSteps = Optimize(pelletStart); //subject to change
+                dict.put(pelletStart, afterSteps);
+                return steps + afterSteps;
             }
             else
             {
@@ -41,7 +52,19 @@ public class FuelController
 
                 rightOptimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) + 1);
                 rightSteps = Optimize(rightOptimizationArg);
-                return 1 + Math.min(leftSteps, rightSteps);
+                int totalSteps = Math.min(leftSteps, rightSteps);
+                if(totalSteps+1 > 2)
+                {
+                    if(leftSteps == totalSteps)
+                    {
+                        dict.put(leftOptimizationArg, totalSteps);
+                    }
+                    else
+                    {
+                        dict.put(rightOptimizationArg, totalSteps);
+                    }
+                }
+                return 1 + totalSteps;
             }
         }
     }
@@ -53,18 +76,26 @@ public class FuelController
         boolean forceDivide = false;
         while(numberToDivide.length() > 0)
         {
-            int subDivisible = Integer.parseInt(numberToDivide.substring(0,letterCount));
+            if(numberToDivide.compareTo("44") == 0)
+            {
+                boolean yes = true;
+            }
+            if(numberToDivide.length() < letterCount)
+            {
+                boolean yes = true;
+            }
+            BigInteger subDivisible = new BigInteger(numberToDivide.substring(0,letterCount));
             if(forceDivide)
             {
                 numberToDivide = longDivisionUsingSubDivisible(numberToDivide, quotient, letterCount, subDivisible);
                 letterCount = 1;
             }
-            else if(letterCount == 1 && subDivisible == 0)
+            else if(letterCount == 1 && subDivisible.compareTo(BigInteger.ZERO) == 0)
             {
                 quotient.append(0);
                 numberToDivide = numberToDivide.substring(letterCount);
             }
-            else if(subDivisible % 2 == 0)
+            else if(subDivisible.getLowestSetBit() != 0)
             {
                 longDivisionUsingSubDivisible(numberToDivide, quotient, letterCount, subDivisible);
                 numberToDivide = numberToDivide.substring(letterCount);
@@ -72,20 +103,20 @@ public class FuelController
             }
             else
             {
-                if (Math.pow(10, letterCount - 1) < MAX_INT_VALUE)
+                if (Math.pow(10, letterCount - 1) < Long.MAX_VALUE)
                     letterCount++;
-                else
-                    forceDivide = true;
+                //else
+                   // forceDivide = true;
             }
         }
         return quotient.toString();
     }
 
-    private String longDivisionUsingSubDivisible(String numberToDivide, StringBuilder quotient, int letterCount, int subDivisible)
+    private String longDivisionUsingSubDivisible(String numberToDivide, StringBuilder quotient, int letterCount, BigInteger subDivisible)
     {
-        int subQuotient = subDivisible/2;
+        BigInteger subQuotient = subDivisible.divide(BigInteger.valueOf(2));
         quotient.append(subQuotient);
-        numberToDivide = (subDivisible - subQuotient*2) + numberToDivide.substring(letterCount);
+        numberToDivide = subDivisible.subtract(subQuotient.multiply(BigInteger.valueOf(2))).toString() + numberToDivide.substring(letterCount);
         return numberToDivide;
     }
 }
