@@ -41,6 +41,30 @@ public class FuelControllerTests
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
     @Test
+    void Given5ShouldReturn3Steps()
+    {
+        Setup();
+        String input = "5";
+        int expectedResult = 3;
+        Assertions.assertEquals(expectedResult, controller.Optimize(input));
+    }
+    @Test
+    void Given2ShouldReturn1Steps()
+    {
+        Setup();
+        String input = "2";
+        int expectedResult = 1;
+        Assertions.assertEquals(expectedResult, controller.Optimize(input));
+    }
+    @Test
+    void Given2ShouldReturn0Steps()
+    {
+        Setup();
+        String input = "1";
+        int expectedResult = 0;
+        Assertions.assertEquals(expectedResult, controller.Optimize(input));
+    }
+    @Test
     void GivenANumberShouldLongDivideBy2()
     {
         Setup();
