@@ -1,10 +1,6 @@
 import java.math.BigInteger;
-import java.util.HashMap;
-
 public class FuelController
 {
-    //BigInteger MAX_INT_VALUE = (2 ^ 32) ^ Integer.MAX_VALUE;
-
     static StringBuilder quotient = new StringBuilder();
     static BigInteger quotientBigInt;
     public int Optimize(String pelletStart)
@@ -16,7 +12,7 @@ public class FuelController
             binaryBig = binaryBig.substring(binaryBig.length()-3);
         }
 
-        if(new BigInteger(pelletStart).compareTo(BigInteger.ONE) == 0 && Integer.parseInt(pelletStart) == 1)
+        if(new BigInteger(pelletStart).compareTo(BigInteger.ONE) == 0)
             return steps;
 
         else if(binaryBig.charAt(binaryBig.length()-1) == '0')
@@ -48,29 +44,16 @@ public class FuelController
             String numberWithoutLastDigit;
             if(Integer.parseInt(binaryBig,2) == 7)
             {
-                String lastDigit = pelletStart.substring(pelletStart.length() - 1);
-                if (pelletStart.length() > 1)
-                {
-                    numberWithoutLastDigit = pelletStart.substring(0, pelletStart.length() - 1);
-                }
-                else
-                {
-                    numberWithoutLastDigit = "";
-                }
-                optimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) + 1);
+                BigInteger strToInt = new BigInteger(pelletStart);
+                strToInt = strToInt.add(BigInteger.ONE);
+                optimizationArg = strToInt.toString();
                 totalSteps = Optimize(optimizationArg);
             }
             else
             {
-                String lastDigit = pelletStart.substring(pelletStart.length() - 1);
-                if (pelletStart.length() > 1) {
-                    numberWithoutLastDigit = pelletStart.substring(0, pelletStart.length() - 1);
-                }
-                else
-                {
-                    numberWithoutLastDigit = "";
-                }
-                optimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) - 1);
+                BigInteger strToInt = new BigInteger(pelletStart);
+                strToInt = strToInt.subtract(BigInteger.ONE);
+                optimizationArg = strToInt.toString();
                 totalSteps = Optimize(optimizationArg);
             }
             return 1 + totalSteps;
