@@ -5,4 +5,9 @@ public class FuelController
         int steps = 0;
         return steps;
     }
+    public String LongDivisionBy2(String number)
+    {
+        String quotient = "1";
+        return quotient;
+    }
 }

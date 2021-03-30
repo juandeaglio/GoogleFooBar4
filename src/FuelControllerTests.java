@@ -40,4 +40,12 @@ public class FuelControllerTests
         int expectedResult = 6;
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
+    @Test
+    void GivenANumberShouldLongDivideBy2()
+    {
+        Setup();
+        String input = "103568";
+        int expectedResult = 51784;
+        Assertions.assertEquals(expectedResult, Integer.parseInt(controller.LongDivisionBy2(input)));
+    }
 }
