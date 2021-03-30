@@ -22,6 +22,7 @@ public class FuelController
             String lastDigit = pelletStart.substring(pelletStart.length()-1);
             if(Integer.parseInt(lastDigit) % 2 == 0)
             {
+                String temp = pelletStart;
                 while(Integer.parseInt(lastDigit) % 2 == 0)
                 {
                     quotientBigInt = new BigInteger(pelletStart);
@@ -33,14 +34,17 @@ public class FuelController
                         lastDigit = pelletStart.substring(pelletStart.length()-1);
                     steps++;
                 }
-                return steps + Optimize(pelletStart);
+                int afterSteps = Optimize(pelletStart);
+                if(afterSteps > 2)
+                    dict.put(temp, steps + afterSteps);
+                return steps + afterSteps;
             }
             else
             {
                 String leftOptimizationArg;
                 String rightOptimizationArg;
-                int leftSteps;
-                int rightSteps;
+                int leftSteps = Integer.MAX_VALUE;
+                int rightSteps = Integer.MAX_VALUE;
                 String numberWithoutLastDigit;
                 if(pelletStart.length() > 1)
                 {
@@ -52,10 +56,14 @@ public class FuelController
                     numberWithoutLastDigit = "";
                 }
                 leftOptimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) - 1);
-                leftSteps = Optimize(leftOptimizationArg);
-
                 rightOptimizationArg = numberWithoutLastDigit + (Integer.parseInt(lastDigit) + 1);
-                rightSteps = Optimize(rightOptimizationArg);
+
+                if(amountOf2s(leftOptimizationArg) > amountOf2s(rightOptimizationArg))
+                {
+                    leftSteps = Optimize(leftOptimizationArg);
+                }
+                else
+                    rightSteps = Optimize(rightOptimizationArg);
                 int totalSteps = Math.min(leftSteps, rightSteps);
                 if(totalSteps+1 > 2)
                 {
@@ -72,21 +80,21 @@ public class FuelController
             }
         }
     }
+    public int amountOf2s(String number)
+    {
+        int timesDivided = 0;
+        quotientBigInt = new BigInteger(number);
+        while(quotientBigInt.getLowestSetBit() != 0)
+        {
+            quotientBigInt = quotientBigInt.divide(BigInteger.valueOf(2));
+            timesDivided++;
+        }
+        return timesDivided;
+    }
     public void LongDivisionBy2(String number)
     {
         quotient.setLength(0);
         quotientBigInt = quotientBigInt.divide(BigInteger.valueOf(2));
         quotient.append(quotientBigInt);
-    }
-    private String longDivisionUsingSubDivisible(String numberToDivide, int letterCount, BigInteger subDivisible)
-    {
-        BigInteger subQuotient = subDivisible.divide(BigInteger.valueOf(2));
-        if (subQuotient.compareTo(BigInteger.valueOf(50)) > 0)
-        {
-            boolean yes = true;
-        }
-        quotient.append(subQuotient);
-        numberToDivide = subDivisible.subtract(subQuotient.multiply(BigInteger.valueOf(2))).toString() + numberToDivide.substring(letterCount);
-        return numberToDivide;
     }
 }

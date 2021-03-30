@@ -3,7 +3,7 @@ public class Solution
     public static void main(String[] args)
     {
         FuelController controller = new FuelController();
-        System.out.println(controller.Optimize("315454535345"));
+        System.out.println(controller.Optimize("315454765745235235235235235235154547657452352352352352352352353645645745745745746464646464675753532353645645745745745746464646464675753531545476574523523523523523523523536456457457457457464646464646757535345"));
         //System.out.println(controller.Optimize("31"));
     }
 }
