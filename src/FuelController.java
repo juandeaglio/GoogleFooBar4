@@ -29,7 +29,7 @@ public class FuelController
                 String numberWithoutLastDigit;
                 if(pelletStart.length() > 1)
                 {
-                    numberWithoutLastDigit = pelletStart.substring(pelletStart.length() - 1);
+                    numberWithoutLastDigit = pelletStart.substring(0, pelletStart.length() - 1);
 
                 }
                 else

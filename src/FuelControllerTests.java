@@ -13,7 +13,7 @@ public class FuelControllerTests
     {
         Setup();
         String input = "9";
-        int expectedResult = 3;
+        int expectedResult = 4;
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
     @Test
