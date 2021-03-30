@@ -48,4 +48,12 @@ public class FuelControllerTests
         int expectedResult = 51784;
         Assertions.assertEquals(expectedResult, Integer.parseInt(controller.LongDivisionBy2(input)));
     }
+    @Test
+    void GivenANumberWithMoreOddsShouldLongDivideBy2()
+    {
+        Setup();
+        String input = "113568";
+        int expectedResult = 56784;
+        Assertions.assertEquals(expectedResult, Integer.parseInt(controller.LongDivisionBy2(input)));
+    }
 }
