@@ -9,11 +9,19 @@ public class FuelControllerTests
         controller = new FuelController();
     }
     @Test
-    void Given9ShouldReturn3Steps()
+    void Given9ShouldReturn4Steps()
     {
         Setup();
         String input = "9";
         int expectedResult = 4;
+        Assertions.assertEquals(expectedResult, controller.Optimize(input));
+    }
+    @Test
+    void Given99999999ShouldReturn32Steps()
+    {
+        Setup();
+        String input = "99999999";
+        int expectedResult = 32;
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
     @Test
@@ -25,10 +33,10 @@ public class FuelControllerTests
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
     @Test
-    void Given67ShouldReturn8Steps()
+    void Given59ShouldReturn8Steps()
     {
         Setup();
-        String input = "67";
+        String input = "59";
         int expectedResult = 8;
         Assertions.assertEquals(expectedResult, controller.Optimize(input));
     }
